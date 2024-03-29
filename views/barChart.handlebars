@@ -1,0 +1,45 @@
+<h1>Company Sales Chart</h1>
+
+<p>The sales data reveals consistent growth over the five-month period, with January marking a strong start followed by
+  a notable uptick in March, reaching a peak of $1800. This positive momentum continued into April and May, with sales
+  figures remaining consistently high at $1800 and $2000, respectively. Overall, the sales department has demonstrated
+  commendable performance, driving revenue growth and contributing to the company's bottom line.</p>
+
+<div class="chart-container">
+  <canvas id="barChart" width="400" height="200"></canvas>
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    fetch('/data')
+      .then(response => response.json())
+      .then(data => {
+        const ctx = document.getElementById('barChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: data.labels,
+            datasets: [{
+              label: 'Sales',
+              data: data.datasets[0].data,
+              backgroundColor: data.datasets[0].backgroundColor,
+              borderColor: data.datasets[0].borderColor,
+              borderWidth: data.datasets[0].borderWidth
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false, // Set to false to allow resizing
+            }
+          }
+        });
+      });
+  });
+</script>

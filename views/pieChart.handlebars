@@ -1,0 +1,36 @@
+<h1>Company Expenses</h1>
+<p>
+  Expenses increased steadily from $800 in January to $1200 in May, reflecting a consistent upward trend. While some
+  growth aligns with sales expansion, careful monitoring is necessary to ensure cost-efficiency. Managing expenses
+  effectively is critical for maintaining profitability and financial stability.
+</p>
+<div class="chart-container">
+  <canvas id="pieChart" width="400" height="400"></canvas>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    fetch('/data')
+      .then(response => response.json())
+      .then(data => {
+        const ctx = document.getElementById('pieChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: data.labels,
+            datasets: [{
+              label: 'Expenses',
+              data: data.datasets[1].data,
+              backgroundColor: data.datasets[1].backgroundColor,
+              borderColor: data.datasets[1].borderColor,
+              borderWidth: data.datasets[1].borderWidth
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false, // Set to false to allow resizing
+          }
+        });
+      });
+  });
+</script>
